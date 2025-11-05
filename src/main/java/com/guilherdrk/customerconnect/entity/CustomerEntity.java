@@ -10,7 +10,7 @@ public class CustomerEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true)
+    @Column(name = "customer_id", unique = true)
     private Long id;
     @Column(name = "full_name")
     private String fullName;
@@ -18,8 +18,8 @@ public class CustomerEntity {
     private String cpf;
     @Column(name = "email", nullable = false, unique = true)
     private String email;
-    @Column(name = "cell_phone")
-    private String cellPhone;
+    @Column(name = "phone_number")
+    private String phoneNumber;
     @Column(name = "create_at")
     private LocalDateTime createAt;
 
@@ -57,12 +57,12 @@ public class CustomerEntity {
         this.email = email;
     }
 
-    public String getCellPhone() {
-        return cellPhone;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setCellPhone(String cellPhone) {
-        this.cellPhone = cellPhone;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public LocalDateTime getCreateAt() {
