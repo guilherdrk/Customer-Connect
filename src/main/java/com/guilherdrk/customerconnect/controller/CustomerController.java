@@ -6,6 +6,7 @@ import com.guilherdrk.customerconnect.dto.PaginationResponse;
 import com.guilherdrk.customerconnect.dto.UpdateCustomerDTO;
 import com.guilherdrk.customerconnect.entity.CustomerEntity;
 import com.guilherdrk.customerconnect.service.CustomerService;
+import org.apache.coyote.Response;
 import org.hibernate.sql.Update;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -65,6 +66,14 @@ public class CustomerController {
 
         var customer = customerService.updateCustomer(id, updateCustomerDTO);
         return customer.isPresent() ?
+                ResponseEntity.noContent().build() :
+                ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id){
+        var customer = customerService.deleteCustomer(id);
+        return customer ?
                 ResponseEntity.noContent().build() :
                 ResponseEntity.notFound().build();
     }

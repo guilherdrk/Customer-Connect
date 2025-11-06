@@ -60,6 +60,14 @@ public class CustomerService {
         return entity;
     }
 
+    public boolean deleteCustomer(Long id){
+        var exists = customerRepository.existsById(id);
+        if (exists){
+            customerRepository.deleteById(id);
+        }
+        return exists;
+    }
+
     private static void updateFields(UpdateCustomerDTO dto, Optional<CustomerEntity> entity) {
         if (StringUtils.hasText(dto.fullName())){
             entity.get().setFullName(dto.fullName());
@@ -73,8 +81,6 @@ public class CustomerService {
 
         entity.get().setCreateAt(LocalDateTime.now());
     }
-
-
     private Page<CustomerEntity> findWithFilter(String cpf, String email, PageRequest pageRequest) {
         if(StringUtils.hasText(email) && StringUtils.hasText(cpf)){
             return customerRepository.findByEmailAndCpf(email, cpf, pageRequest);
@@ -88,7 +94,6 @@ public class CustomerService {
 
         return customerRepository.findAll(pageRequest);
     }
-
     private PageRequest getPageRequest(Integer page, Integer pageSize, String orderBy) {
         var direction = Sort.Direction.DESC;
         if(orderBy.equalsIgnoreCase("asc")){
