@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -41,6 +42,14 @@ public class CustomerService {
 
         return findWithFilter(cpf, email, pageRequest);
     }
+
+
+    public Optional<CustomerEntity> findCustomById(Long id){
+        var customer = customerRepository.findById(id);
+        return customer;
+
+    }
+
 
     private Page<CustomerEntity> findWithFilter(String cpf, String email, PageRequest pageRequest) {
         if(StringUtils.hasText(email) && StringUtils.hasText(cpf)){
