@@ -2,6 +2,7 @@ package com.guilherdrk.customerconnect.service;
 
 import ch.qos.logback.core.util.StringUtil;
 import com.guilherdrk.customerconnect.dto.CreateCustomerDTO;
+import com.guilherdrk.customerconnect.dto.UpdateCustomerDTO;
 import com.guilherdrk.customerconnect.entity.CustomerEntity;
 import com.guilherdrk.customerconnect.repository.CustomerRepository;
 import org.springframework.data.domain.Page;
@@ -48,6 +49,29 @@ public class CustomerService {
         var customer = customerRepository.findById(id);
         return customer;
 
+    }
+
+    public Optional<CustomerEntity> updateCustomer(Long id, UpdateCustomerDTO dto){
+        var entity = customerRepository.findById(id);
+        if (entity.isPresent()){
+            updateFields(dto, entity);
+            customerRepository.save(entity.get());
+        }
+        return entity;
+    }
+
+    private static void updateFields(UpdateCustomerDTO dto, Optional<CustomerEntity> entity) {
+        if (StringUtils.hasText(dto.fullName())){
+            entity.get().setFullName(dto.fullName());
+        }
+        if (StringUtils.hasText(dto.email())){
+            entity.get().setEmail(dto.email());
+        }
+        if (StringUtils.hasText(dto.phoneNumber())){
+            entity.get().setPhoneNumber(dto.phoneNumber());
+        }
+
+        entity.get().setCreateAt(LocalDateTime.now());
     }
 
 
