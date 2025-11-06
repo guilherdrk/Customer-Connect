@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/customers")
@@ -47,4 +48,13 @@ public class CustomerController {
                 )
         ));
     }
+
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<Optional<CustomerEntity>> findById(@PathVariable Long id){
+        var customer = customerService.findCustomById(id);
+        return customer.isPresent() ?
+                ResponseEntity.ok(customer) :
+                ResponseEntity.notFound().build();
+    }
+
 }
